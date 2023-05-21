@@ -1,4 +1,4 @@
-package com.github.sondaehyeon.comcigan;
+package com.github.ioloolo.comcigan;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.github.sondaehyeon.comcigan.data.School;
-import com.github.sondaehyeon.comcigan.data.timetable.OriginalTimeTable;
-import com.github.sondaehyeon.comcigan.data.timetable.PeriodTimeTable;
-import com.github.sondaehyeon.comcigan.util.Base64;
-import com.github.sondaehyeon.comcigan.util.ComciganRequest;
-import com.github.sondaehyeon.comcigan.util.EucKr;
+import com.github.ioloolo.comcigan.data.School;
+import com.github.ioloolo.comcigan.data.timetable.OriginalTimeTable;
+import com.github.ioloolo.comcigan.data.timetable.PeriodTimeTable;
+import com.github.ioloolo.comcigan.util.Base64;
+import com.github.ioloolo.comcigan.util.ComciganRequest;
+import com.github.ioloolo.comcigan.util.EucKr;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

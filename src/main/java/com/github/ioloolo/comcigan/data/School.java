@@ -1,4 +1,4 @@
-package com.github.sondaehyeon.comcigan.data;
+package com.github.ioloolo.comcigan.data;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

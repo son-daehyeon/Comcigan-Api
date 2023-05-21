@@ -1,4 +1,4 @@
-package com.github.sondaehyeon.comcigan.data.timetable;
+package com.github.ioloolo.comcigan.data.timetable;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
