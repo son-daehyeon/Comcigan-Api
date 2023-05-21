@@ -91,9 +91,7 @@ public final class ComciganApi {
      */
     public Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(int grade, int clazz) {
         return new LinkedHashMap<>() {{
-            EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY).forEach(dow -> {
-                put(dow, getDailyTimeTable(grade, clazz, dow));
-            });
+            EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY).forEach(dow -> put(dow, getDailyTimeTable(grade, clazz, dow)));
         }};
     }
 
