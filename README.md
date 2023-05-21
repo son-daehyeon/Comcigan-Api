@@ -4,6 +4,7 @@
 타 라이브러리와 다르게 웹 소스를 기반으로 데이터를 불러오지 않고 JSON을 통해 데이터를 파싱하기 때문에 빠르고 안정적입니다.
 
 ## 사용법
+[![](https://jitpack.io/v/ioloolo/ComciganApi.svg)](https://jitpack.io/#ioloolo/ComciganApi)
 ### Gradle
 ```groovy
 repositories {
@@ -11,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.0x00000FF:comcigan-api:1.0.0'
+    implementation 'com.github.ioloolo:ComciganApi:1.0.1'
 }
 ```
 
