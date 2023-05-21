@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.github.ioloolo.comcigan.data.School;
 import com.github.ioloolo.comcigan.data.timetable.OriginalTimeTable;
@@ -47,7 +48,7 @@ public final class ComciganApi {
                             return School.of(code, school, location);
                         })
                         .filter(school -> school.getCode() != 0)
-                        .toList())
+                        .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
 
@@ -74,12 +75,12 @@ public final class ComciganApi {
     }
 
     private void fetchComciganJson() throws IOException {
-        String subUrl = "36179?" + Base64.encode("73629_%d_0_1".formatted(school.getCode()));
+        String subUrl = "36179?" + Base64.encode("73629_"+school.getCode()+"_0_1");
         Optional<JsonObject> request = ComciganRequest.request(subUrl);
 
         this.comciganJson = request
                 .map(JsonElement::getAsJsonObject)
-                .orElseThrow();
+                .orElse(null);
     }
 
     /**
@@ -90,7 +91,7 @@ public final class ComciganApi {
      * @return 주간 시간표
      */
     public Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(int grade, int clazz) {
-        return new LinkedHashMap<>() {{
+        return new LinkedHashMap<DayOfWeek, List<PeriodTimeTable>>() {{
             EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY).forEach(dow -> put(dow, getDailyTimeTable(grade, clazz, dow)));
         }};
     }
@@ -104,7 +105,7 @@ public final class ComciganApi {
      * @return 일간 시간표
      */
     public List<PeriodTimeTable> getDailyTimeTable(int grade, int clazz, DayOfWeek dow) {
-        return new ArrayList<>() {{
+        return new ArrayList<PeriodTimeTable>() {{
             int period = 1;
             Optional<PeriodTimeTable> timeTable;
 
