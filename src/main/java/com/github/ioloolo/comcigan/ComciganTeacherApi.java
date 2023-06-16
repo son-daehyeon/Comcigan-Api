@@ -40,7 +40,7 @@ public final class ComciganTeacherApi extends ComciganBaseApi {
         }};
     }
 
-    public Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(String code, int id) throws Exception {
+    public static Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(String code, int id) throws Exception {
         return new LinkedHashMap<DayOfWeek, List<TeacherTimeTable>>() {{
             JsonObject comciganJson = getComciganJson(code);
 
