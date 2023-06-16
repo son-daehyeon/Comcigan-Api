@@ -11,74 +11,43 @@ import java.util.Optional;
 import com.github.ioloolo.comcigan.data.timetable.OriginalTimeTable;
 import com.github.ioloolo.comcigan.data.timetable.PeriodTimeTable;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public final class ComciganStudentApi extends ComciganBaseApi {
 
-    /**
-     * 특정 학년, 반의 주간 시간표를 가져옵니다.
-     *
-     * @param grade 학년
-     * @param clazz 반
-     * @return 주간 시간표
-     */
-    public Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(int grade, int clazz) throws Exception {
-        if (school == null) {
-            throw new Exception("Please set the school first.");
-        }
+    public static Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(String code, int grade, int clazz) throws Exception {
+		JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
 
-        fetchComciganJson();
-
-        return new LinkedHashMap<DayOfWeek, List<PeriodTimeTable>>() {{
+		return new LinkedHashMap<DayOfWeek, List<PeriodTimeTable>>() {{
             EnumSet<DayOfWeek> range = EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY);
 
             for (DayOfWeek dow : range) {
-                put(dow, getDailyTimeTable(grade, clazz, dow));
+                put(dow, getDailyTimeTable(comciganJson, grade, clazz, dow));
             }
         }};
     }
 
-    /**
-     * 특정 학년, 반, 요일의 일간 시간표를 가져옵니다.
-     *
-     * @param grade 학년
-     * @param clazz 반
-     * @param dow 요일
-     * @return 일간 시간표
-     */
-    public List<PeriodTimeTable> getDailyTimeTable(int grade, int clazz, DayOfWeek dow) throws Exception {
-        if (school == null) {
-            throw new Exception("Please set the school first.");
-        }
+	public static List<PeriodTimeTable> getDailyTimeTable(String code, int grade, int clazz, DayOfWeek dow) throws Exception {
+		return getDailyTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow);
+	}
 
-        fetchComciganJson();
-
+    private static List<PeriodTimeTable> getDailyTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow) throws Exception {
         return new ArrayList<PeriodTimeTable>() {{
             int period = 1;
             Optional<PeriodTimeTable> timeTable;
 
-            while ((timeTable = getPeriodTimeTable(grade, clazz, dow, period++)).isPresent())
+            while ((timeTable = getPeriodTimeTable(comciganJson, grade, clazz, dow, period++)).isPresent())
                 add(timeTable.get());
         }};
     }
 
-    /**
-     * 특정 학년, 반, 요일, 교시의 시간표를 가져옵니다.
-     *
-     * @param grade 학년
-     * @param clazz 반
-     * @param dow 요일
-     * @param period 교시
-     * @return 해당 교시의 시간표 (Optional)
-     */
-    public Optional<PeriodTimeTable> getPeriodTimeTable(int grade, int clazz, DayOfWeek dow, int period) throws Exception {
-        if (school == null) {
-            throw new Exception("Please set the school first.");
-        }
+	public static Optional<PeriodTimeTable> getPeriodTimeTable(String code, int grade, int clazz, DayOfWeek dow, int period) throws Exception {
+		return getPeriodTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow, period);
+	}
 
-        fetchComciganJson();
-
-        PeriodTimeTable todayTable = parsePeriodTimeTable(grade, clazz, dow, PeriodTimeTable.TimeTableType.TODAY, period).orElse(null);
-        PeriodTimeTable originalTable = parsePeriodTimeTable(grade, clazz, dow, PeriodTimeTable.TimeTableType.ORIGINAL, period).orElse(null);
+    private static Optional<PeriodTimeTable> getPeriodTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow, int period) {
+        PeriodTimeTable todayTable = parsePeriodTimeTable(comciganJson, grade, clazz, dow, PeriodTimeTable.TimeTableType.TODAY, period).orElse(null);
+        PeriodTimeTable originalTable = parsePeriodTimeTable(comciganJson, grade, clazz, dow, PeriodTimeTable.TimeTableType.ORIGINAL, period).orElse(null);
 
         if (todayTable == null || originalTable == null)
             return Optional.empty();
@@ -91,7 +60,7 @@ public final class ComciganStudentApi extends ComciganBaseApi {
         return Optional.of(todayTable);
     }
 
-    private Optional<PeriodTimeTable> parsePeriodTimeTable(int grade, int clazz, DayOfWeek dow, PeriodTimeTable.TimeTableType type, int period) {
+    private static Optional<PeriodTimeTable> parsePeriodTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow, PeriodTimeTable.TimeTableType type, int period) {
         JsonArray data = comciganJson
                 .get(type.getJsonKey()).getAsJsonArray()
                 .get(grade).getAsJsonArray()

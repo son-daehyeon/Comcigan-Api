@@ -12,27 +12,21 @@ import com.github.ioloolo.comcigan.data.Teacher;
 import com.github.ioloolo.comcigan.data.timetable.TeacherTimeTable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public final class ComciganTeacherApi extends ComciganBaseApi {
 
-    @Override
-    protected void fetchComciganJson() throws IOException {
-        super.fetchComciganJson();
-        createSubTimetable();
+    protected static JsonObject getComciganJson(String code) throws IOException {
+        JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
+        createSubTimetable(comciganJson);
+
+        return comciganJson;
     }
 
-    public List<Teacher> getTeacherList() throws Exception {
-        if (school == null) {
-            throw new Exception("Please set the school first.");
-        }
-
-        if (comciganJson == null) {
-            fetchComciganJson();
-        }
-
+    public static List<Teacher> getTeacherList(String code) throws Exception {
         return new ArrayList<Teacher>() {{
-            List<String> list = comciganJson
+            List<String> list = getComciganJson(code)
                     .get("자료446")
                     .getAsJsonArray()
                     .asList()
@@ -46,14 +40,10 @@ public final class ComciganTeacherApi extends ComciganBaseApi {
         }};
     }
 
-    public Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(int id) throws Exception {
-        if (school == null) {
-            throw new Exception("Please set the school first.");
-        }
-
-        fetchComciganJson();
-
+    public Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(String code, int id) throws Exception {
         return new LinkedHashMap<DayOfWeek, List<TeacherTimeTable>>() {{
+            JsonObject comciganJson = getComciganJson(code);
+
             for (int dow = 1; dow < 6; ++dow) {
                 put(DayOfWeek.values()[dow-1], new ArrayList<>());
             }
@@ -101,63 +91,63 @@ public final class ComciganTeacherApi extends ComciganBaseApi {
         }};
     }
 
-    private void createSubTimetable() {
+    private static void createSubTimetable(JsonObject comciganJson) {
         comciganJson.add("시간표2", new JsonArray());
 
-        createTeacherSubTimetable();
-        processGradeData();
+        createTeacherSubTimetable(comciganJson);
+        processGradeData(comciganJson);
     }
 
-    private void createTeacherSubTimetable() {
+    private static void createTeacherSubTimetable(JsonObject comciganJson) {
         for (int teacher = 0; teacher <= comciganJson.get("교사수").getAsInt(); ++teacher) {
             comciganJson.get("시간표2").getAsJsonArray().add(new JsonArray());
             if (teacher == 0) continue;
-            addPeriodsToDayOfWeek(teacher);
+            addPeriodsToDayOfWeek(comciganJson, teacher);
         }
     }
 
-    private void addPeriodsToDayOfWeek(int teacher) {
+    private static void addPeriodsToDayOfWeek(JsonObject comciganJson, int teacher) {
         for (int dow = 0; dow < 6; ++dow) {
             comciganJson.get("시간표2").getAsJsonArray().get(teacher).getAsJsonArray().add(new JsonArray());
             if (dow == 0) continue;
-            addPeriodsToTeacher(teacher, dow);
+            addPeriodsToTeacher(comciganJson, teacher, dow);
         }
     }
 
-    private void addPeriodsToTeacher(int teacher, int dow) {
+    private static void addPeriodsToTeacher(JsonObject comciganJson, int teacher, int dow) {
         for (int period = 0; period <= 8; ++period) {
             comciganJson.get("시간표2").getAsJsonArray().get(teacher).getAsJsonArray().get(dow).getAsJsonArray().add(0);
         }
     }
 
-    private void processGradeData() {
+    private static void processGradeData(JsonObject comciganJson) {
         for (int grade = 1; grade <= 3; ++grade) {
             int size = comciganJson.get("학급수").getAsJsonArray().get(grade).getAsInt();
-            processClassData(grade, size);
+            processClassData(comciganJson, grade, size);
         }
     }
 
-    private void processClassData(int grade, int size) {
+    private static void processClassData(JsonObject comciganJson, int grade, int size) {
         for (int clazz = 1; clazz <= size; ++clazz) {
-            processDayOfWeek(grade, clazz);
+            processDayOfWeek(comciganJson, grade, clazz);
         }
     }
 
-    private void processDayOfWeek(int grade, int clazz) {
+    private static void processDayOfWeek(JsonObject comciganJson, int grade, int clazz) {
         for (int dow = 1; dow < 6; ++dow) {
-            processPeriod(grade, clazz, dow);
+            processPeriod(comciganJson, grade, clazz, dow);
         }
     }
 
-    private void processPeriod(int grade, int clazz, int dow) {
+    private static void processPeriod(JsonObject comciganJson, int grade, int clazz, int dow) {
         for (int period = 1; period <=8; ++period) {
             JsonArray data = comciganJson.get("자료481").getAsJsonArray().get(grade).getAsJsonArray().get(clazz).getAsJsonArray().get(dow).getAsJsonArray();
             if (period >= data.size()) break;
-            updateTeacherData(grade, clazz, dow, period, data);
+            updateTeacherData(comciganJson, grade, clazz, dow, period, data);
         }
     }
 
-    private void updateTeacherData(int grade, int clazz, int dow, int period, JsonArray data) {
+    private static void updateTeacherData(JsonObject comciganJson, int grade, int clazz, int dow, int period, JsonArray data) {
         int index = data.get(period).getAsInt();
         int teacherTmp = 0;
         if (index > 10000) {
@@ -169,12 +159,12 @@ public final class ComciganTeacherApi extends ComciganBaseApi {
             int teacher = index / 100;
             if (teacher <= comciganJson.get("교사수").getAsInt()) {
                 int sb = index - teacher * 100;
-                updateTeacherPeriod(grade, clazz, dow, period, sb, teacher, teacherTmp);
+                updateTeacherPeriod(comciganJson, grade, clazz, dow, period, sb, teacher, teacherTmp);
             }
         }
     }
 
-    private void updateTeacherPeriod(int grade, int clazz, int dow, int period, int sb, int teacher, int teacherTmp) {
+    private static void updateTeacherPeriod(JsonObject comciganJson, int grade, int clazz, int dow, int period, int sb, int teacher, int teacherTmp) {
         comciganJson.get("시간표2").getAsJsonArray().get(teacher).getAsJsonArray().get(dow).getAsJsonArray().set(period, new JsonPrimitive((grade*100+clazz)*100+sb));
         if (teacherTmp > 0) {
             comciganJson.get("시간표2").getAsJsonArray().get(teacherTmp).getAsJsonArray().get(dow).getAsJsonArray().set(period, new JsonPrimitive((grade*100+clazz)*100+sb));

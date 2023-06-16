@@ -13,14 +13,7 @@ import com.github.ioloolo.comcigan.util.EucKr;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import lombok.Setter;
-
 public abstract class ComciganBaseApi {
-
-    protected School school;
-
-    @Setter
-    protected JsonObject comciganJson;
 
     /**
      * 주어진 학교 이름으로 학교를 검색합니다.
@@ -48,30 +41,11 @@ public abstract class ComciganBaseApi {
                 .orElse(Collections.emptyList());
     }
 
-    /**
-     * 학교를 설정합니다. 설정된 학교의 시간표를 가져오는 데 사용됩니다.
-     *
-     * @param school 설정할 학교
-     */
-    public void setSchool(School school) {
-        this.school = school;
-    }
-
-    /**
-     * 주어진 학교 이름으로 학교를 설정합니다.
-     *
-     * @param schoolName 설정할 학교의 이름
-     * @throws IOException 요청 처리 중 오류 발생 시
-     */
-    public void setSchool(String schoolName) throws IOException {
-        setSchool(searchSchool(schoolName).get(0));
-    }
-
-    protected void fetchComciganJson() throws IOException {
-        String subUrl = "36179?" + Base64.encode("73629_"+school.getCode()+"_0_1");
+    protected static JsonObject getComciganJson(String code) throws IOException {
+        String subUrl = "36179?" + Base64.encode("73629_"+code+"_0_1");
         Optional<JsonObject> request = ComciganRequest.request(subUrl);
 
-        this.comciganJson = request
+        return request
                 .map(JsonElement::getAsJsonObject)
                 .orElse(null);
     }
