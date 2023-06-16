@@ -29,7 +29,7 @@ public abstract class ComciganBaseApi {
      * @return 검색된 학교 리스트
      * @throws IOException 요청 처리 중 오류 발생 시
      */
-    public List<School> searchSchool(String name) throws IOException {
+    public static List<School> searchSchool(String name) throws IOException {
         return ComciganRequest.request("36179?17384l" + EucKr.convert(name))
                 .map(jsonObject -> jsonObject
                         .getAsJsonArray("학교검색")
@@ -52,9 +52,8 @@ public abstract class ComciganBaseApi {
      * 학교를 설정합니다. 설정된 학교의 시간표를 가져오는 데 사용됩니다.
      *
      * @param school 설정할 학교
-     * @throws IOException 요청 처리 중 오류 발생 시
      */
-    public void setSchool(School school) throws IOException {
+    public void setSchool(School school) {
         this.school = school;
     }
 
