@@ -15,10 +15,10 @@ import com.google.gson.JsonObject;
 
 public final class ComciganStudentApi extends ComciganBaseApi {
 
-    public static Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(String code, int grade, int clazz) throws Exception {
-		JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
+    public static Map<DayOfWeek, List<PeriodTimeTable>> getWeeklyTimeTable(int code, int grade, int clazz) throws Exception {
+        JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
 
-		return new LinkedHashMap<DayOfWeek, List<PeriodTimeTable>>() {{
+        return new LinkedHashMap<DayOfWeek, List<PeriodTimeTable>>() {{
             EnumSet<DayOfWeek> range = EnumSet.range(DayOfWeek.MONDAY, DayOfWeek.FRIDAY);
 
             for (DayOfWeek dow : range) {
@@ -27,9 +27,9 @@ public final class ComciganStudentApi extends ComciganBaseApi {
         }};
     }
 
-	public static List<PeriodTimeTable> getDailyTimeTable(String code, int grade, int clazz, DayOfWeek dow) throws Exception {
-		return getDailyTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow);
-	}
+    public static List<PeriodTimeTable> getDailyTimeTable(int code, int grade, int clazz, DayOfWeek dow) throws Exception {
+        return getDailyTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow);
+    }
 
     private static List<PeriodTimeTable> getDailyTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow) throws Exception {
         return new ArrayList<PeriodTimeTable>() {{
@@ -41,9 +41,9 @@ public final class ComciganStudentApi extends ComciganBaseApi {
         }};
     }
 
-	public static Optional<PeriodTimeTable> getPeriodTimeTable(String code, int grade, int clazz, DayOfWeek dow, int period) throws Exception {
-		return getPeriodTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow, period);
-	}
+    public static Optional<PeriodTimeTable> getPeriodTimeTable(int code, int grade, int clazz, DayOfWeek dow, int period) throws Exception {
+        return getPeriodTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow, period);
+    }
 
     private static Optional<PeriodTimeTable> getPeriodTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow, int period) {
         PeriodTimeTable todayTable = parsePeriodTimeTable(comciganJson, grade, clazz, dow, PeriodTimeTable.TimeTableType.TODAY, period).orElse(null);

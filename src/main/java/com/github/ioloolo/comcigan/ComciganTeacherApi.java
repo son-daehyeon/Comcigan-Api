@@ -17,14 +17,14 @@ import com.google.gson.JsonPrimitive;
 
 public final class ComciganTeacherApi extends ComciganBaseApi {
 
-    protected static JsonObject getComciganJson(String code) throws IOException {
+    protected static JsonObject getComciganJson(int code) throws IOException {
         JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
         createSubTimetable(comciganJson);
 
         return comciganJson;
     }
 
-    public static List<Teacher> getTeacherList(String code) throws Exception {
+    public static List<Teacher> getTeacherList(int code) throws Exception {
         return new ArrayList<Teacher>() {{
             List<String> list = getComciganJson(code)
                     .get("자료446")
@@ -40,7 +40,7 @@ public final class ComciganTeacherApi extends ComciganBaseApi {
         }};
     }
 
-    public static Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(String code, int id) throws Exception {
+    public static Map<DayOfWeek, List<TeacherTimeTable>> getTimeTable(int code, int id) throws Exception {
         return new LinkedHashMap<DayOfWeek, List<TeacherTimeTable>>() {{
             JsonObject comciganJson = getComciganJson(code);
 

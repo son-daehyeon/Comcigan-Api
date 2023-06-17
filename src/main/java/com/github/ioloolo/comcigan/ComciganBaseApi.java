@@ -41,7 +41,7 @@ public abstract class ComciganBaseApi {
                 .orElse(Collections.emptyList());
     }
 
-    protected static JsonObject getComciganJson(String code) throws IOException {
+    protected static JsonObject getComciganJson(int code) throws IOException {
         String subUrl = "36179?" + Base64.encode("73629_"+code+"_0_1");
         Optional<JsonObject> request = ComciganRequest.request(subUrl);
 
