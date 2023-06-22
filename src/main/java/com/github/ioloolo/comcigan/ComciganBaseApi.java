@@ -1,11 +1,5 @@
 package com.github.ioloolo.comcigan;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import com.github.ioloolo.comcigan.data.School;
 import com.github.ioloolo.comcigan.util.Base64;
 import com.github.ioloolo.comcigan.util.ComciganRequest;
@@ -13,15 +7,13 @@ import com.github.ioloolo.comcigan.util.EucKr;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public abstract class ComciganBaseApi {
 
-    /**
-     * 주어진 학교 이름으로 학교를 검색합니다.
-     *
-     * @param name 검색할 학교의 이름
-     * @return 검색된 학교 리스트
-     * @throws IOException 요청 처리 중 오류 발생 시
-     */
     public static List<School> searchSchool(String name) throws IOException {
         return ComciganRequest.request("36179?17384l" + EucKr.convert(name))
                 .map(jsonObject -> jsonObject
@@ -39,6 +31,26 @@ public abstract class ComciganBaseApi {
                         .filter(school -> school.getCode() != 0)
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
+    }
+
+    public static Map<Integer, LocalTime> getRange(int code) throws IOException {
+        JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
+
+        return new HashMap<>() {{
+            comciganJson.getAsJsonArray("일과시간")
+                    .asList()
+                    .stream()
+                    .map(JsonElement::getAsString)
+                    .forEach(str -> {
+                        int hour = Integer.parseInt(str.substring(2, 4));
+                        int minute = Integer.parseInt(str.substring(5, 7));
+
+                        int key = Integer.parseInt(str.charAt(0) + "");
+                        LocalTime value = LocalTime.of(hour, minute);
+
+                        put(key, value);
+                    });
+        }};
     }
 
     protected static JsonObject getComciganJson(int code) throws IOException {
