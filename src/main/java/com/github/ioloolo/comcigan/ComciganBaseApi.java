@@ -36,7 +36,7 @@ public abstract class ComciganBaseApi {
     public static Map<Integer, LocalTime> getRange(int code) throws IOException {
         JsonObject comciganJson = ComciganBaseApi.getComciganJson(code);
 
-        return new HashMap<>() {{
+        return new HashMap<Integer, LocalTime>() {{
             comciganJson.getAsJsonArray("일과시간")
                     .asList()
                     .stream()
