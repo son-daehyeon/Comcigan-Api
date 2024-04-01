@@ -16,7 +16,7 @@
 </repositories>
 
 <dependency>
-    <groupId>com.github.ioloolo</groupId>
+    <groupId>com.github.son-daehyeon</groupId>
     <artifactId>ComciganApi</artifactId>
     <version>2.0.0</version>
 </dependency>
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ioloolo:ComciganApi:2.0.0'
+    implementation 'com.github.son-daehyeon:ComciganApi:2.0.0'
 }
 ```
 
