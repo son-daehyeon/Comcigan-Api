@@ -1,4 +1,4 @@
-package com.github.ioloolo.comcigan.util;
+package com.github.son_daehyeon.util;
 
 import java.nio.charset.Charset;
 

@@ -1,9 +1,9 @@
-package com.github.ioloolo.comcigan.teacher;
+package com.github.son_daehyeon.teacher;
 
-import com.github.ioloolo.comcigan.ComciganBaseApi;
-import com.github.ioloolo.comcigan.teacher.data.Teacher;
-import com.github.ioloolo.comcigan.teacher.timetable.DailyTimeTable;
-import com.github.ioloolo.comcigan.teacher.timetable.PeriodTimeTable;
+import com.github.son_daehyeon.ComciganBaseApi;
+import com.github.son_daehyeon.teacher.data.Teacher;
+import com.github.son_daehyeon.teacher.timetable.DailyTimeTable;
+import com.github.son_daehyeon.teacher.timetable.PeriodTimeTable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

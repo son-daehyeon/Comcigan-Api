@@ -1,10 +1,10 @@
-package com.github.ioloolo.comcigan;
+package com.github.son_daehyeon;
 
-import com.github.ioloolo.comcigan.data.School;
-import com.github.ioloolo.comcigan.teacher.ComciganTeacherApi;
-import com.github.ioloolo.comcigan.util.Base64;
-import com.github.ioloolo.comcigan.util.ComciganRequest;
-import com.github.ioloolo.comcigan.util.EucKr;
+import com.github.son_daehyeon.data.School;
+import com.github.son_daehyeon.teacher.ComciganTeacherApi;
+import com.github.son_daehyeon.util.Base64;
+import com.github.son_daehyeon.util.ComciganRequest;
+import com.github.son_daehyeon.util.EucKr;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 

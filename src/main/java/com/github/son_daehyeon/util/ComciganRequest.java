@@ -1,4 +1,4 @@
-package com.github.ioloolo.comcigan.util;
+package com.github.son_daehyeon.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

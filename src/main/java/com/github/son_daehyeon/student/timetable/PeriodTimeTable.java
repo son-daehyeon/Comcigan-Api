@@ -1,4 +1,4 @@
-package com.github.ioloolo.comcigan.student.timetable;
+package com.github.son_daehyeon.student.timetable;
 
 import lombok.*;
 

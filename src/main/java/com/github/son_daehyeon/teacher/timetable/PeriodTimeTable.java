@@ -1,4 +1,4 @@
-package com.github.ioloolo.comcigan.teacher.timetable;
+package com.github.son_daehyeon.teacher.timetable;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.github.ioloolo.comcigan.teacher.data;
+package com.github.son_daehyeon.teacher.data;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

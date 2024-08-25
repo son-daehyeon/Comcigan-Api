@@ -1,8 +1,8 @@
-package com.github.ioloolo.comcigan.student;
+package com.github.son_daehyeon.student;
 
-import com.github.ioloolo.comcigan.ComciganBaseApi;
-import com.github.ioloolo.comcigan.student.timetable.DailyTimeTable;
-import com.github.ioloolo.comcigan.student.timetable.PeriodTimeTable;
+import com.github.son_daehyeon.ComciganBaseApi;
+import com.github.son_daehyeon.student.timetable.DailyTimeTable;
+import com.github.son_daehyeon.student.timetable.PeriodTimeTable;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public final class ComciganStudentApi extends ComciganBaseApi {
     public static Optional<PeriodTimeTable> getPeriodTimeTable(int code, int grade, int clazz, DayOfWeek dow, int period) {
         return getPeriodTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow, period);
     }
-    
+
     public static DailyTimeTable getDailyTimeTable(int code, int grade, int clazz, DayOfWeek dow) {
         return getDailyTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz, dow);
     }
@@ -27,7 +27,7 @@ public final class ComciganStudentApi extends ComciganBaseApi {
     public static List<DailyTimeTable> getWeeklyTimeTable(int code, int grade, int clazz) {
         return getWeeklyTimeTable(ComciganBaseApi.getComciganJson(code), grade, clazz);
     }
-    
+
     private static Optional<PeriodTimeTable> getPeriodTimeTable(JsonObject comciganJson, int grade, int clazz, DayOfWeek dow, int period) {
         PeriodTimeTable todayTable = parsePeriodTimeTable(comciganJson, grade, clazz, dow, TimeTableType.TODAY, period).orElse(null);
         PeriodTimeTable originalTable = parsePeriodTimeTable(comciganJson, grade, clazz, dow, TimeTableType.ORIGINAL, period).orElse(null);

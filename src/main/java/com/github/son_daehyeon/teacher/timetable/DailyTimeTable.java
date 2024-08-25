@@ -1,7 +1,6 @@
-package com.github.ioloolo.comcigan.student.timetable;
+package com.github.son_daehyeon.teacher.timetable;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.DayOfWeek;
 import java.util.List;
