@@ -1,5 +1,5 @@
-# ComciganApi
-[![](https://jitpack.io/v/ioloolo/ComciganApi.svg)](https://jitpack.io/#ioloolo/ComciganApi)
+# Comcigan Api
+[![](https://jitpack.io/v/ioloolo/Comcigan-Api.svg)](https://jitpack.io/#ioloolo/Comcigan-Api)
 
 자바에서 [컴시간 알리미](http://xn--s39aj90b0nb2xw6xh.kr/)의 시간표를 파싱하기 위한 라이브러리입니다.
 
@@ -17,7 +17,7 @@
 
 <dependency>
     <groupId>com.github.son-daehyeon</groupId>
-    <artifactId>ComciganApi</artifactId>
+    <artifactId>Comcigan-Api</artifactId>
     <version>2.0.0</version>
 </dependency>
 ```
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.son-daehyeon:ComciganApi:2.0.0'
+    implementation 'com.github.son-daehyeon:Comcigan-Api:2.0.0'
 }
 ```
 
