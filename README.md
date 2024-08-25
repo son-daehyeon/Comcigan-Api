@@ -1,4 +1,4 @@
-# Comcigan Api
+# ComciganApi
 [![](https://jitpack.io/v/ioloolo/ComciganApi.svg)](https://jitpack.io/#ioloolo/ComciganApi)
 
 자바에서 [컴시간 알리미](http://xn--s39aj90b0nb2xw6xh.kr/)의 시간표를 파싱하기 위한 라이브러리입니다.
